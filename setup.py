@@ -14,11 +14,11 @@ from setuptools import find_packages, setup, Command
 # Package meta-data
 NAME = 'company_graph'
 DESCRIPTION = 'Resolving Messy Company Names'
-URL = 'https://github.com/estasney/company_graph'
+URL = 'https://github.com/estasney/CompanyGraph'
 EMAIL = '16440579+estasney@users.noreply.github.com'
 AUTHOR = 'Eric Stasney'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 # What packages are required for this module to be executed?
 REQUIRED = [

@@ -52,7 +52,7 @@ class CompanyGraph(object):
             return self.string2id(item)
 
         else:
-            return self.id2id(item)
+            return self.id2string(item)
 
         # Is it a company_id? If so follow redirects
 
@@ -84,3 +84,18 @@ class CompanyGraph(object):
 
         # No? Follow greater gravity
         return self.id2id(competing_node[0])
+
+    def id2string(self, item):
+
+        # Does the id have any redirects?
+        item = self.id2id(item)
+
+        # Generate potential names via predecessors
+        # Filter out redirects, these have a gravity attribute
+        potential_names = list(filter(lambda x: x[1].get('weight') is not None, self.graph.pred.get(item).items()))
+
+        if not potential_names:
+            return None
+
+        else:
+            return max(potential_names, key=lambda x: x[1]['weight'])[0]

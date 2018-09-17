@@ -15,7 +15,7 @@ from company_graph import CompanyGraph
 cg = CompanyGraph()
 
 # Generalize company ids
->>> cg(1697742)
+>>> cg.id2id(1697742)
 1063
 
 # Deterministic company id from string
@@ -23,4 +23,8 @@ cg = CompanyGraph()
 1063
 >>> cg('Talos Group at Cisco')
 1063
+
+# Deterministic company name from id
+>>> cg(1063)
+'cisco'
 ```

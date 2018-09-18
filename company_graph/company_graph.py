@@ -68,6 +68,9 @@ class CompanyGraph(object):
         # Does the id have any redirects?
 
         # If not, return id
+        has_node = self.graph.has_node(item)
+        if not has_node:
+            return item
         routes = self.graph[item]
         if not routes:
             return item

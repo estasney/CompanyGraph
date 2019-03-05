@@ -78,11 +78,11 @@ class CompanyGraph(object):
         # If so...
         # Is the gravity of this node greater than all redirects?
 
-        current_gravity = self.graph.nodes[item].get('gravity', 0)
-        competing_node = max(routes.items(), key=lambda x: x[1].get('gravity', 0))
+        current_gravity = self.graph.nodes[item].get('g', 0)
+        competing_node = max(routes.items(), key=lambda x: x[1].get('g', 0))
 
         # Yes? Stop here
-        if current_gravity >= competing_node[1].get('gravity', 0):
+        if current_gravity >= competing_node[1].get('g', 0):
             return item
 
         # No? Follow greater gravity
@@ -95,10 +95,10 @@ class CompanyGraph(object):
 
         # Generate potential names via predecessors
         # Filter out redirects, these have a gravity attribute
-        potential_names = list(filter(lambda x: x[1].get('weight') is not None, self.graph.pred.get(item).items()))
+        potential_names = list(filter(lambda x: x[1].get('n') is not None, self.graph.pred.get(item).items()))
 
         if not potential_names:
             return None
 
         else:
-            return max(potential_names, key=lambda x: x[1]['weight'])[0]
+            return max(potential_names, key=lambda x: x[1]['n'])[0]

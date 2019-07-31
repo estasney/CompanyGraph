@@ -24,6 +24,10 @@ REQUIRED = [
     'networkx'
 ]
 
+extras = {
+    'hypothesis'
+    }
+
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Import the README and use it as the long-description.

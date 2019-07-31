@@ -15,25 +15,14 @@ from setuptools import find_packages, setup, Command
 NAME = 'company_graph'
 DESCRIPTION = 'Resolving Messy Company Names'
 URL = 'https://github.com/estasney/CompanyGraph'
-EMAIL = '16440579+estasney@users.noreply.github.com'
+EMAIL = 'estasney@users.noreply.github.com'
 AUTHOR = 'Eric Stasney'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.2.0'
+VERSION = '0.3.0'
 
-# What packages are required for this module to be executed?
 REQUIRED = [
     'networkx'
 ]
-
-# What packages are optional?
-EXTRAS = {
-    # 'fancy feature': ['django'],
-}
-
-# The rest you shouldn't have to touch too much :)
-# ------------------------------------------------
-# Except, perhaps the License and Trove Classifiers!
-# If you do change the License, remember to change the Trove Classifier for that!
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -109,6 +98,7 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
     ],
     # $ setup.py publish support.
     cmdclass={

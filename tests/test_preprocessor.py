@@ -1,8 +1,5 @@
-import pickle
-
-from hypothesis import given, example
+from hypothesis import given
 from hypothesis.strategies import text, characters
-import pkg_resources
 import csv
 
 from company_graph.normalizer import *
@@ -39,9 +36,6 @@ class TestRegex(unittest.TestCase):
         for raw, expected in self.test_pairs_stopwords:
             if STRIP_STOPWORDS(raw) != expected:
                 raise AssertionError("{} should have been {} but was {}".format(raw, expected, STRIP_STOPWORDS(raw)))
-
-
-
 
 
 if __name__ == "__main__":

@@ -1,13 +1,4 @@
-import pickle
-
-from hypothesis import given, example
-from hypothesis.strategies import text, characters
-import pkg_resources
-import csv
-
-from company_graph import CompanyGraph
-from company_graph.normalizer import *
-
+from company_graph.cg import CompanyGraph
 import unittest
 
 
@@ -27,13 +18,8 @@ class TestCompanyGraph(unittest.TestCase):
         assert self.cg('Cisco') == 1063
         assert self.cg('Cisco Talos') == 1063
         assert self.cg('Google') == 1441
-        assert self.cg(2844978) == 1063
-
-
-
-
-
-
+        assert self.cg(2844978) == 'cisco'
+        assert self.cg.id2id(2844978) == 1063
 
 
 if __name__ == "__main__":

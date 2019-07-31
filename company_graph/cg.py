@@ -1,7 +1,7 @@
 import pickle
 import pkg_resources
 
-from .normalizer import Preprocessor
+from company_graph.normalizer import Preprocessor
 
 
 

@@ -1,3 +1,2 @@
 include setup.py
 include graph/data/*.pkl
-include README.md

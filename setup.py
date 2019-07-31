@@ -21,7 +21,7 @@ REQUIRES_PYTHON = '>=3.6.0'
 VERSION = '0.3.0'
 
 REQUIRED = [
-    'networkx'
+    'networkx>=2.3'
 ]
 
 EXTRAS = {}

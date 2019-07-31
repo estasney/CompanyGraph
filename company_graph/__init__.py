@@ -1,1 +1,2 @@
-from .company_graph import CompanyGraph, Preprocessor
+from company_graph.company_graph import CompanyGraph
+from company_graph.normalizer import Preprocessor

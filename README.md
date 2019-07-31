@@ -4,13 +4,13 @@
 `pip install company-graph`
 
 #### Build
-```python setup.py sdist bdist_wheel```
+`python setup.py sdist bdist_wheel`
 
-```twine upload dist/*```
+`twine upload dist/*`
 
 #### Usage
 ```python
-from company_graph import CompanyGraph
+from company_graph.cg import CompanyGraph
 
 cg = CompanyGraph()
 

@@ -1,30 +1,14 @@
 import pickle
-import re
-import string
-
 import pkg_resources
 
-
-class Preprocessor(object):
-    punct_re = re.compile(r'([%s])+' % re.escape(string.punctuation))
-    multi_ws = re.compile(r"( {2,})")
-
-    def __init__(self):
-        pass
-
-    def __call__(self, s):
-        s = s.lower()
-        s = self.punct_re.sub(string=s, repl="")
-        s = self.multi_ws.sub(string=s, repl=" ")
-        s = s.strip()
-        return s
+from .normalizer import Preprocessor
 
 
 class CompanyGraph(object):
 
-    def __init__(self, preprocessor=Preprocessor):
+    def __init__(self, preprocessor=Preprocessor()):
         self.graph = self.load_graph()
-        self.preprocessor = preprocessor()
+        self.preprocessor = preprocessor
 
     def load_graph(self):
 

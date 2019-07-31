@@ -24,7 +24,7 @@ REQUIRED = [
     'networkx'
 ]
 
-extras = {
+EXTRAS = {
     'hypothesis'
     }
 

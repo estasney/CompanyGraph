@@ -4,6 +4,7 @@ import pkg_resources
 from .normalizer import Preprocessor
 
 
+
 class CompanyGraph(object):
 
     def __init__(self, preprocessor=Preprocessor()):
@@ -26,15 +27,16 @@ class CompanyGraph(object):
             return False
 
     def __call__(self, item):
-        if isinstance(item, str) and self.preprocessor:
-            item = self.preprocessor(item)
+        if self.preprocessor:
+            if isinstance(item, str):
+                item = self.preprocessor(item)
         if not self.graph.has_node(item):
             return None
 
         if isinstance(item, str):
             return self.string2id(item)
+
         else:
-            item = self.id2id(item)
             return self.id2string(item)
 
         # Is it a company_id? If so follow redirects

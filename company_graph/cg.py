@@ -1,8 +1,8 @@
 import pickle
+
 import pkg_resources
 
 from company_graph.normalizer import Preprocessor
-
 
 
 class CompanyGraph(object):

@@ -5,7 +5,7 @@ from functools import partial
 
 
 def strip_match(s, pattern):
-    return pattern.sub("", s)
+    return pattern.sub(" ", s)
 
 
 def to_lowercase(s):
@@ -15,17 +15,18 @@ def to_lowercase(s):
 RE_PUNCTUATION = re.compile(r'([%s])+' % re.escape(string.punctuation))
 RE_MULTIPLE_WHITESPACE = re.compile(r"( {2,})")
 STOPWORDS = ['for', 'global', 'by', 'international', 'technologies', 'the', 'group', 'systems', 'of', 'corporation',
-             'and', 'limited', 'llc', 'ltd', 'inc', 'company', 'consulting']
+             'and', 'limited', 'llc', 'ltd', 'inc', 'company', 'consulting', 'at']
 RE_STOPWORDS = re.compile("({})(?![A-z] ?)".format("|".join(STOPWORDS)), re.IGNORECASE)
 
 STRIP_PUNCTUATION = partial(strip_match, pattern=RE_PUNCTUATION)
 STRIP_MULTIPLE_WHITESPACE = partial(strip_match, pattern=RE_MULTIPLE_WHITESPACE)
 STRIP_STOPWORDS = partial(strip_match, pattern=RE_STOPWORDS)
 TO_LOWERCASE = to_lowercase
+STRIP_STRING = lambda x: x.strip()
 
 
 class Preprocessor(object):
-    DEFAULT_STRING_PROCESSORS = [STRIP_STOPWORDS, STRIP_PUNCTUATION, STRIP_MULTIPLE_WHITESPACE, TO_LOWERCASE]
+    DEFAULT_STRING_PROCESSORS = [STRIP_STOPWORDS, STRIP_PUNCTUATION, STRIP_MULTIPLE_WHITESPACE, TO_LOWERCASE, STRIP_STRING]
 
     def __init__(self, *args: typing.Callable):
         self.string_processors = self.DEFAULT_STRING_PROCESSORS if not args else args

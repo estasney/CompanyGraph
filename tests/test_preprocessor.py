@@ -1,4 +1,4 @@
-from hypothesis import given
+from hypothesis import given, example
 from hypothesis.strategies import text, characters
 import csv
 
@@ -21,21 +21,30 @@ class TestRegex(unittest.TestCase):
         assert len([p for p in string.punctuation if p in stripped_s]) == 0
 
     @given(text() | characters())
+    @example("ABC  ABC ABC")
+    @example("A B  A  B  ")
     def test_multi_ws(self, s):
+
         # Are these still present?
         copy_s = s
 
         assert STRIP_MULTIPLE_WHITESPACE(copy_s).find("  ") == -1
 
         # Did we remove desired whitespace?
-        original_tokens = [token for token in s.split(" ") if token != " "]
-        stripped_tokens = STRIP_MULTIPLE_WHITESPACE(copy_s).split(" ")
+        original_tokens = [token for token in s.split() if token != " "]
+        stripped_tokens = STRIP_MULTIPLE_WHITESPACE(copy_s).split()
         assert original_tokens == stripped_tokens
 
     def test_stopwords(self):
         for raw, expected in self.test_pairs_stopwords:
             if STRIP_STOPWORDS(raw) != expected:
                 raise AssertionError("{} should have been {} but was {}".format(raw, expected, STRIP_STOPWORDS(raw)))
+
+    def test_preprocessor(self):
+        s = ['ABC-ABC', 'ABC.ABC', '.ABC.ABC', 'ABC at ABC', 'ABC ABC', 'ABC  ABC  ']
+        p = Preprocessor()
+        for example in s:
+            self.assertEqual("abc abc", p(example))
 
 
 if __name__ == "__main__":

@@ -3,13 +3,15 @@ import pickle
 import pkg_resources
 
 from company_graph.normalizer import Preprocessor
+from company_graph.rules import RuleMatcher
 
 
 class CompanyGraph(object):
 
-    def __init__(self, preprocessor=Preprocessor()):
+    def __init__(self, preprocessor=Preprocessor(), rules=RuleMatcher):
         self.graph = self.load_graph()
         self.preprocessor = preprocessor
+        self.rules = rules
 
     def load_graph(self):
 
@@ -24,13 +26,22 @@ class CompanyGraph(object):
         if self.graph.has_node(item):
             return True
         else:
-            return False
+            return item in self.rules
 
     def __call__(self, item):
         if self.preprocessor:
             if isinstance(item, str):
                 item = self.preprocessor(item)
-        if not self.graph.has_node(item):
+
+        item, was_matched = self.rules.run(item)
+        if was_matched:
+            if not self.graph.has_node(item):
+                return item
+            else:
+                if isinstance(item, str):
+                    return self.string2id(item)
+
+        elif not self.graph.has_node(item):
             return None
 
         if isinstance(item, str):

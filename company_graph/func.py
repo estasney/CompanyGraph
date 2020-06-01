@@ -137,12 +137,12 @@ contains_ibm = Pattern(
         action=Return(return_value="ibm")
         )
 
-_startswith_oracle = __regex_factory_i_escape(__contains_token_template, "oracle")
-starts_with_oracle = Pattern(
-        match=MatchesRegex(pattern=_startswith_oracle),
+_contains_oracle = __regex_factory_i_escape(__contains_token_template, "oracle")
+contains_oracle = Pattern(
+        match=MatchesRegex(pattern=_contains_oracle),
         action=Return(return_value="oracle")
         )
 
 PATTERNS = [
-    starts_with_oracle, contains_ibm
+    contains_oracle, contains_ibm
     ]

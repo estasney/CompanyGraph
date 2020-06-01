@@ -143,6 +143,18 @@ contains_oracle = Pattern(
         action=Return(return_value="oracle")
         )
 
+_startswith_accenture = __regex_factory_i_escape(__startswith_template, "accenture")
+starts_with_accenture = Pattern(
+        match=MatchesRegex(pattern=_startswith_accenture),
+        action=Return(return_value="accenture")
+        )
+
+_contains_hewlett_packard = __regex_factory_i_escape(__contains_token_template, "hewlett packard|(hpe)")
+contains_hewlett_packard = Pattern(
+        match=MatchesRegex(pattern=_contains_hewlett_packard),
+        action=Return(return_value="hewlett packard")
+        )
+
 PATTERNS = [
-    contains_oracle, contains_ibm
+    contains_oracle, contains_ibm, starts_with_accenture, contains_hewlett_packard
     ]

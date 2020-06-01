@@ -18,7 +18,7 @@ URL = 'https://github.com/estasney/CompanyGraph'
 EMAIL = 'estasney@users.noreply.github.com'
 AUTHOR = 'Eric Stasney'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.3.2'
+VERSION = '0.4.0'
 
 REQUIRED = [
     'networkx>=2.3'

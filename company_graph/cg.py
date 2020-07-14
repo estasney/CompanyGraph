@@ -1,4 +1,5 @@
 import pickle
+from typing import Union, Optional
 
 import pkg_resources
 
@@ -8,10 +9,9 @@ from company_graph.rules import RuleMatcher
 
 class CompanyGraph(object):
 
-    def __init__(self, preprocessor=Preprocessor(), rules=RuleMatcher):
+    def __init__(self, preprocessor=Preprocessor, rules=RuleMatcher):
         self.graph = self.load_graph()
-        self.preprocessor = preprocessor
-        self.rules = rules
+        self.preprocessor = preprocessor(rules=rules)
 
     def load_graph(self):
 
@@ -26,40 +26,33 @@ class CompanyGraph(object):
         if self.graph.has_node(item):
             return True
         else:
-            return item in self.rules
+            return item in self.preprocessor.rules
 
-    def __call__(self, item):
-        if self.preprocessor:
-            if isinstance(item, str):
-                item = self.preprocessor(item)
-
-        item, was_matched = self.rules.run(item)
-        if was_matched:
-            if not self.graph.has_node(item):
-                return item
-            else:
-                if isinstance(item, str):
-                    return self.string2id(item)
-
-        elif not self.graph.has_node(item):
+    def __call__(self, item: Optional[Union[int, str]]):
+        if not item:
             return None
 
-        if isinstance(item, str):
-            return self.string2id(item)
-
-        else:
+        if isinstance(item, int):
             return self.id2string(item)
 
-        # Is it a company_id? If so follow redirects
+        else:
+            return self.string2id(item)
 
-    def string2id(self, item):
+    def string2id(self, item: str) -> Optional[id]:
 
         # String lookups will have one id mapping made available
+        item_result = self.preprocessor(item)
+        if not item_result:
+            return None
 
-        route = list(self.graph[item])[0]
+        try:
+            route = list(self.graph[item_result])[0]
+        except (KeyError, IndexError) as e:
+            return None
+
         return route
 
-    def id2id(self, item):
+    def id2id(self, item: int) -> int:
 
         # Does the id have any redirects?
 
@@ -87,11 +80,11 @@ class CompanyGraph(object):
     def id2string(self, item):
 
         # Does the id have any redirects?
-        item = self.id2id(item)
+        item_result = self.id2id(item)
 
         # Generate potential names via predecessors
         # Filter out redirects, these have a gravity attribute
-        potential_names = list(filter(lambda x: x[1].get('n') is not None, self.graph.pred.get(item).items()))
+        potential_names = list(filter(lambda x: x[1].get('n') is not None, self.graph.pred.get(item_result).items()))
 
         if not potential_names:
             return None

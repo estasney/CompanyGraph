@@ -1,7 +1,10 @@
 import re
 import string
-import typing
 from functools import partial
+from typing import Optional, List, Callable, TypeVar, Union, Type
+
+from company_graph.rules import RuleMatcher
+
 
 
 def strip_match(s, pattern):
@@ -26,18 +29,31 @@ STRIP_STRING = lambda x: x.strip()
 
 
 class Preprocessor(object):
-    DEFAULT_STRING_PROCESSORS = [STRIP_STOPWORDS, STRIP_PUNCTUATION, STRIP_MULTIPLE_WHITESPACE, TO_LOWERCASE, STRIP_STRING]
+    DEFAULT_STRING_PROCESSORS = [STRIP_STOPWORDS, STRIP_PUNCTUATION, STRIP_MULTIPLE_WHITESPACE, TO_LOWERCASE,
+                                 STRIP_STRING]
 
-    def __init__(self, *args: typing.Callable):
-        self.string_processors = self.DEFAULT_STRING_PROCESSORS if not args else args
+    def __init__(self, rules: Optional[RuleMatcher] = RuleMatcher, processors: Optional[List[Callable]] = None):
+        if processors is None:
+            processors = Preprocessor.DEFAULT_STRING_PROCESSORS
+        self.processors = processors
+        self.rules = rules
 
-    def __call__(self, s):
-        ps = s  # Keep original reference
-        for sp in self.string_processors:
-            if not ps:  # In case we've removed everything
-                return s
-            ps = sp(ps)
-        ps = ps.strip()
-        if not ps:
+    def __call__(self, s: Optional[str]) -> Optional[str]:
+        if not s:
             return s
-        return ps
+
+        s_post_rule, was_matched = self.rules.run(s)
+        if was_matched:
+            return s_post_rule
+
+        s_copy = s
+        if self.processors:
+            for sp in self.processors:
+                if not s_copy:  # In case we've removed everything
+                    return s
+                s_copy = sp(s_copy)
+
+        s_copy = s_copy.strip()
+        if not s_copy:
+            return s
+        return s_copy

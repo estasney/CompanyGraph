@@ -19,6 +19,9 @@ class Match(ABC):
     def __init__(self, matched_type=str):
         self.matched_type = matched_type
 
+    def __repr__(self):
+        return self.__class__.__name__
+
     def _type_check(self, x):
         return isinstance(x, self.matched_type)
 
@@ -33,6 +36,9 @@ class EndsWith(Match):
         self.matched_type = matched_type
         self.char = char_pattern
 
+    def __repr__(self):
+        return "{} : {}".format(super(EndsWith, self).__repr__(), self.char)
+
     def run(self, x):
         if not self._type_check(x):
             return False
@@ -45,6 +51,9 @@ class StartsWith(Match):
         super().__init__(matched_type)
         self.matched_type = matched_type
         self.char = char_pattern
+
+    def __repr__(self):
+        return "{} : {}".format(super(StartsWith, self).__repr__(), self.char)
 
     def run(self, x):
         if not self._type_check(x):
@@ -63,6 +72,9 @@ class MatchesRegex(Match):
         else:
             self.f = self.char.search
 
+    def __repr__(self):
+        return "{} : {}".format(super(MatchesRegex, self).__repr__(), self.char)
+
     def run(self, x: str):
         if not self._type_check(x):
             return False
@@ -79,6 +91,9 @@ class Sub(Action):
         else:
             self.f = partial(lambda ptrn, repl, x: ptrn.sub(repl, x), ptrn=self.old, repl=self.new)
 
+    def __repr__(self):
+        return "{} ==> {}".format(self.old, self.new)
+
     def run(self, x: str):
         x = self.f(x=x)
         return x
@@ -89,11 +104,17 @@ class Drop(Action):
     def run(self, x):
         return None
 
+    def __repr__(self):
+        return self.__class__.__name__
+
 
 class Return(Action):
 
     def __init__(self, return_value):
         self.return_value = return_value
+
+    def __repr__(self):
+        return self.__class__.__name__
 
     def run(self, x):
         return self.return_value
@@ -106,6 +127,9 @@ class Pattern(object):
 
     def __call__(self, *args, **kwargs):
         return self.run(*args, **kwargs)
+
+    def __repr__(self):
+        return "{}, {}".format(self.match, self.action)
 
     def run(self, x: str, *args, **kwargs):
         if self.match.run(x):
@@ -155,6 +179,12 @@ contains_hewlett_packard = Pattern(
         action=Return(return_value="hewlett packard")
         )
 
+_contains_att = __regex_factory(__startswith_template, re.IGNORECASE, pattern="(at&t)|(att)")
+contains_att = Pattern(
+        match=MatchesRegex(pattern=_contains_att),
+        action=Return(return_value="att")
+        )
+
 PATTERNS = [
-    contains_oracle, contains_ibm, starts_with_accenture, contains_hewlett_packard
+    contains_oracle, contains_ibm, starts_with_accenture, contains_hewlett_packard, contains_att
     ]

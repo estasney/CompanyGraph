@@ -7,7 +7,8 @@ from company_graph.normalizer import *
 
 @pytest.fixture(scope='module')
 def stopwords():
-    with open('../company_names_stopwords.csv', 'r', newline='', encoding='utf-8') as f:
+
+    with open("company_names_stopwords.csv", 'r', newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
         headers = next(reader)
         test_pairs_stopwords = [tuple(line) for line in reader]

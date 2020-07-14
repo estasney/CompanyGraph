@@ -6,10 +6,13 @@ def cg():
     cg = CompanyGraph()
     return cg
 
-def test_company2id(cg):
-    assert cg('Cisco') == 1063
-    assert cg('Cisco Talos') == 1063
-    assert cg('Google') == 1441
-    assert cg(2844978) == 'cisco'
-    assert cg.id2id(2844978) == 1063
+@pytest.mark.parametrize("given,expected", [("Cisco", 1063),
+                                            ("Cisco Talos", 1063),
+                                            ("Google", 1441),
+                                            (2844978, "cisco"),
+                                            ])
+def test_company2id_call(given, expected, cg):
+    assert cg(given) == expected
+
+
 

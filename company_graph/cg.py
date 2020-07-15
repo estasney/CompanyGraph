@@ -77,15 +77,19 @@ class CompanyGraph(object):
         # No? Follow greater gravity
         return self.id2id(competing_node[0])
 
-    def id2string(self, item):
+    def id2string(self, item) -> Optional[str]:
 
         # Does the id have any redirects?
         item_result = self.id2id(item)
 
         # Generate potential names via predecessors
         # Filter out redirects, these have a gravity attribute
-        potential_names = list(filter(lambda x: x[1].get('n') is not None, self.graph.pred.get(item_result).items()))
 
+        predecessors = self.graph.pred.get(item_result)
+        if not predecessors:
+            return None
+
+        potential_names = [(name, data) for name, data in predecessors.items() if data and 'n' in data]
         if not potential_names:
             return None
 

@@ -32,7 +32,7 @@ class Preprocessor(object):
     DEFAULT_STRING_PROCESSORS = [STRIP_STOPWORDS, STRIP_PUNCTUATION, STRIP_MULTIPLE_WHITESPACE, TO_LOWERCASE,
                                  STRIP_STRING]
 
-    def __init__(self, rules: Optional[RuleMatcher] = RuleMatcher, processors: Optional[List[Callable]] = None):
+    def __init__(self, rules: Union[RuleMatcher, Type[None]] = RuleMatcher, processors: Optional[List[Callable]] = None):
         if processors is None:
             processors = Preprocessor.DEFAULT_STRING_PROCESSORS
         self.processors = processors

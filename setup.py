@@ -68,11 +68,9 @@ class UploadCommand(Command):
         os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
 
         self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
+        import keyring
 
-        self.status('Pushing git tags…')
-        os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --tags')
+        os.system('twine upload -u estasney -p {} dist/*'.format(keyring.get_password("TWINE", "estasney")))
 
         sys.exit()
 

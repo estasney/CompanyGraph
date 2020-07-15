@@ -14,6 +14,10 @@ def cg():
                                                    ("Accenture Suffix", "accenture", True),
                                                    ("Hewlett Packard", "hewlett packard", True),
                                                    ("HPE", "hewlett packard", True),
+                                                   ("Hewlett-packard", "hewlett packard", True),
+                                                   ("HP Software", "hewlett packard", True),
+                                                   ("Some Other HP Company", "hewlett packard", False),
+                                                   ("Some Company that is an (HP) Company", "hewlett packard", True),
                                                    ("AT&T", "att", True),
                                                    ("ATT", "att", True)])
 def test_rules(given, expected, equals, cg):

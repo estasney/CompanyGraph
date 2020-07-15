@@ -151,29 +151,32 @@ def __regex_factory_i_escape(template, pattern):
     return __regex_factory(template, re.IGNORECASE, pattern=re.escape(pattern))
 
 
+
 __startswith_template = r"^({pattern})"
 __endswith_template = r"({pattern})$"
 __contains_token_template = r"\b({pattern})\b"
 
-_contains_ibm = __regex_factory_i_escape(__contains_token_template, "ibm")
+_contains_ibm = __regex_factory(__contains_token_template, re.IGNORECASE, pattern="ibm")
 contains_ibm = Pattern(
         match=MatchesRegex(pattern=_contains_ibm),
         action=Return(return_value="ibm")
         )
 
-_contains_oracle = __regex_factory_i_escape(__contains_token_template, "oracle")
+_contains_oracle = __regex_factory(__contains_token_template, re.IGNORECASE, pattern="oracle")
 contains_oracle = Pattern(
         match=MatchesRegex(pattern=_contains_oracle),
         action=Return(return_value="oracle")
         )
 
-_startswith_accenture = __regex_factory_i_escape(__startswith_template, "accenture")
+_startswith_accenture = __regex_factory(__startswith_template, re.IGNORECASE, pattern="accenture")
 starts_with_accenture = Pattern(
         match=MatchesRegex(pattern=_startswith_accenture),
         action=Return(return_value="accenture")
         )
 
-_contains_hewlett_packard = __regex_factory_i_escape(__contains_token_template, "hewlett packard|(hpe)")
+_contains_hewlett_packard = re.compile(
+        "|".join(__contains_token_template.format(pattern=x) for x in ["hewlett[ -]packard", "hpe"]) + "|\(hp\)",
+        flags=re.IGNORECASE)
 contains_hewlett_packard = Pattern(
         match=MatchesRegex(pattern=_contains_hewlett_packard),
         action=Return(return_value="hewlett packard")

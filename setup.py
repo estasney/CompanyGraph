@@ -17,11 +17,11 @@ DESCRIPTION = 'Resolving Messy Company Names'
 URL = 'https://github.com/estasney/CompanyGraph'
 EMAIL = 'estasney@users.noreply.github.com'
 AUTHOR = 'Eric Stasney'
-REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.5.2'
+REQUIRES_PYTHON = '>=3.7.0'
+VERSION = '0.5.3'
 
 REQUIRED = [
-    'networkx>=2.3'
+    'networkx>=2.6'
 ]
 
 EXTRAS = {}
@@ -98,8 +98,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
     # $ setup.py publish support.
     cmdclass={
